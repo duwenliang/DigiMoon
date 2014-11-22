@@ -53,5 +53,6 @@ function main() {
 	
 	// Initial WebGL context
 	gl = initGL(canvas);
+	//test duwenliang
 	
 }*/
