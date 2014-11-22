@@ -1,4 +1,4 @@
-function initGL() {
+function initGL(ratio) {
 	
 	var canvas = document.getElementById("webglMoon");	
 	
@@ -9,50 +9,42 @@ function initGL() {
 		console.log('Failed to get the rendering context for WebGL.');
 	}
 	
-	canvas.width = 800;
-	canvas.height = 600;
-	
-	gl.clearColor(0.3, 0.3, 0.3, 1.0);  //color (Red, Green, Blue, Alpha)
+	// Initialize the size of canvas (Adapting to the window size of the browser)
+	var width = innerWidth;
+    var height = innerHeight;
+	canvas.width = width * ratio;
+	canvas.height = height * ratio;
+	canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+	gl.clearColor(0.6, 0.3, 0.3, 1.0);  //color (Red, Green, Blue, Alpha)
 	gl.clear(gl.COLOR_BUFFER_BIT);
+	
+	//Output initGL parameters
+	document.getElementById('initGLOutput').innerHTML = 'initGL:<br>'+output('canvas.style.width', canvas.style.width)+output('canvas.style.height', canvas.style.height)+output('width', width);
 	
 	return gl;
 }
 
+window.onload = onloading;
 
+function onloading(){
 
-window.onload = function(){
-	
-	
-	
-
-	var gl = initGL();
 	var ratio = window.devicePixelRatio || 1;
- function onresize() {
-    var width = innerWidth;
-    var height = innerHeight;
-    gl.canvas.width = width * ratio;
-    gl.canvas.height = height * ratio;
-    gl.canvas.style.width = width + 'px';
-    gl.canvas.style.height = height + 'px';
-    gl.viewpogrt(0, 0, gl.canvas.width, gl.canvas.height);
-    //gl.matrixMode(gl.PROJECTION);
-    //gl.loadIdentity();
-    //gl.perspective(45, gl.canvas.width / gl.canvas.height, 0.01, 100);
-    //gl.matrixMode(gl.MODELVIEW);
-    gl.clearColor(0.3, 0.3, 0.3, 1.0);  //color (Red, Green, Blue, Alpha)
-	 gl.clear(gl.COLOR_BUFFER_BIT);
-  }
-
+	var gl = initGL(ratio);
+	
+	function onresize(){
+	    var width = innerWidth;
+	    var height = innerHeight;
+	    gl.canvas.width = width * ratio;
+	    gl.canvas.height = height * ratio;
+	    gl.canvas.style.width = width + 'px';
+	    gl.canvas.style.height = height + 'px';
+	    gl.clearColor(0.3, 0.3, 0.3, 1.0);  //color (Red, Green, Blue, Alpha)
+	    gl.clear(gl.COLOR_BUFFER_BIT);
+	
+	
+	    //Output onresize parameters
+	    document.getElementById('onresizeOutput').innerHTML = 'onresize:<br>'+output('gl.canvas.style.width', gl.canvas.style.width)+output('gl.canvas.style.height', gl.canvas.style.height)+output('ratio', ratio)+output('width', width);
+    }
 	window.onresize = onresize;
-};
-
-/*
-function main() {
-	// Retrive <canvas> element
-	var canvas = document.getElementById("webglMoon");
-	
-	// Initial WebGL context
-	gl = initGL(canvas);
-	//test duwenliang
-	
-}*/
+}
